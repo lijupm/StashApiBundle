@@ -1,0 +1,29 @@
+{
+    "name": "medicorenl/stash-api-bundle",
+    "type": "symfony-bundle",
+    "description": "Stash REST api integration in Symfony",
+    "keywords": ["stash", "rest", "symfony"],
+    "authors": [
+        {
+            "name": "Kees Schepers",
+            "email": "kees@keesschepers.nl"
+        },
+        {
+            "name": "Liju Pallikadavath Mohanan",
+            "email": "liju.p.mohanan@medicore.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": ">=2.1,<2.2-dev",
+        "ddeboer/guzzle-bundle": "dev-master"
+
+    },
+    "autoload": {
+        "psr-0": {
+            "StashApiBundle\\": ""
+        }
+    },
+    "target-dir" : "StashApiBundle",
+    "minimum-stability": "dev"
+}
