@@ -10,7 +10,7 @@ use StashApiBundle\Service\BranchesService;
  * 
  * @author Liju.P.M <liju.p.mohanan@medicore.nl>
  */
-class CommitsService extends BaseService
+class CommitsService extends AbstractService
 { 
     
     /**

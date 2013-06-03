@@ -19,8 +19,6 @@
                 </argument>
             </argument>
         </service>
-        <service id="stash_api.base" class="%stash_api.base.class%" public="true">                       
-        </service>
         <service id="stash_api.branches" class="%stash_api.branches.class%" public="true">   
             <argument type="service" id="stash_api.rest_client"></argument>                            
         </service>

@@ -9,7 +9,7 @@ use Guzzle\Http\Client;
  * 
  * @author Liju.P.M <liju.p.mohanan@medicore.nl>
  */
-class FilesService extends BaseService
+class FilesService extends AbstractService
 { 
     
     /**
