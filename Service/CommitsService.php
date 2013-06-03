@@ -3,55 +3,38 @@
 namespace StashApiBundle\Service;
 
 use Guzzle\Http\Client;
+use StashApiBundle\Service\BranchesService;
 
-class CommitsService
-{
+/**
+ * Service class that deals with 'commits' related stash apis.
+ * 
+ * @author Liju.P.M <liju.p.mohanan@medicore.nl>
+ */
+class CommitsService extends BaseService
+{ 
+    
+    /**
+     *
+     * @var Guzzle\Http\Client 
+     */
     protected $client;
-    protected $resultLimit = 25;
+    
+    /**
+     *
+     * @var StashApiBundle\Service\BranchesService 
+     */
+    protected $branchService;
+
 
     /**
-     * Constructor.
-     *
-     * @param Guzzle\Http\Client $client
+     * Constructor. 
      */
-    public function __construct(Client $client)
-    {
+    public function __construct(Client $client, BranchesService $branchService)
+    {         
         $this->client = $client;
+        $this->branchService = $branchService;        
     }
-
-    /**
-     * Set the maximum number of results being fetched from the REST api.
-     *
-     * @param integer $limit
-     *
-     * @return self
-     */
-    public function setResultLimit($limit)
-    {
-        $this->resultLimit = $limit;
-
-        return $this;
-    }
-
-    /**
-     * Creates and returns an stash compatible URL
-     *
-     * @param string $project
-     * @param string $repository
-     * @param array  $params
-     *
-     * @return string
-     */
-    protected function createUrl($project, $repository, array $params = array())
-    {
-        $url = sprintf('projects/%s/repos/%s/commits', $project, $repository);
-        $params = array_merge($params, array('limit' => $this->resultLimit));
-
-        $url = $url . '?' . http_build_query($params);
-
-        return $url;
-    }
-
+    
     /**
      * Get a list of merged branches as an array based on 
      * Git normal merge commits.
@@ -67,7 +50,11 @@ class CommitsService
      */
     public function getMergedBranchesFromBranch($baseBranch, $project, $repository)
     {
-        $commits         = $this->getCommitsFromBranch($baseBranch, $project, $repository);
+        $commits = null;
+        $matchingBranches = $this->branchService->searchBranch($baseBranch, $project, $repository);
+        if (count($matchingBranches) > 0) {
+            $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);        
+        }
         $filteredCommits = array();
 
         if (null === $commits) {
@@ -101,11 +88,12 @@ class CommitsService
         $url = $this->createUrl(
             $project,
             $repository,
+            'commits',
             array(
                 'until' => 'refs/heads/' . $branch
             )
         );
-
+        
         $data = $this->getResponseAsArray($url);
 
         if (false === isset($data['values'])) {
@@ -113,20 +101,5 @@ class CommitsService
         }
 
         return $data['values'];
-    }
-
-    /**
-     * Get response from Stash for the given API call.
-     *
-     * @param string $url
-     *
-     * @return array
-     */
-    private function getResponseAsArray($url)
-    {
-        $request = $this->client->get($url);
-        $response = $request->send();
-
-        return $response->json();
-    }
+    }   
 }
