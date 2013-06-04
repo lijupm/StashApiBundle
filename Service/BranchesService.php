@@ -2,30 +2,11 @@
 
 namespace StashApiBundle\Service;
 
-use Guzzle\Http\Client;
-
 /**
- * Service class that deals with 'branch' related stash apis.
- * 
- * @author Liju.P.M <liju.p.mohanan@medicore.nl>
+ * Service class that deals with 'branch' related stash apis. 
  */
 class BranchesService extends AbstractService
-{ 
-    
-    /**
-     *
-     * @var Guzzle\Http\Client 
-     */
-    protected $client;
-    
-    /**
-     * Constructor. 
-     */
-    public function __construct(Client $client)
-    {         
-        $this->client = $client;        
-    }        
-
+{               
     /**
      * Search branches in a given project repository.
      *
@@ -44,8 +25,7 @@ class BranchesService extends AbstractService
             array(
                 'filterText' => $branch
             )
-        );
-        
+        );        
         $data = $this->getResponseAsArray($url);
 
         if (false === isset($data['values'])) {

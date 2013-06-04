@@ -6,19 +6,10 @@ use Guzzle\Http\Client;
 use StashApiBundle\Service\BranchesService;
 
 /**
- * Service class that deals with 'commits' related stash apis.
- * 
- * @author Liju.P.M <liju.p.mohanan@medicore.nl>
+ * Service class that deals with 'commits' related stash apis. 
  */
 class CommitsService extends AbstractService
-{ 
-    
-    /**
-     *
-     * @var Guzzle\Http\Client 
-     */
-    protected $client;
-    
+{         
     /**
      *
      * @var StashApiBundle\Service\BranchesService 
@@ -28,11 +19,14 @@ class CommitsService extends AbstractService
 
     /**
      * Constructor. 
+     * 
+     * @param Guzzle\Http\Client $client
+     * @param StashApiBundle\Service\BranchesService $branchService
      */
     public function __construct(Client $client, BranchesService $branchService)
     {         
         $this->client = $client;
-        $this->branchService = $branchService;        
+        $this->branchService = $branchService;
     }
     
     /**
@@ -56,7 +50,7 @@ class CommitsService extends AbstractService
             $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);        
         }
         $filteredCommits = array();
-
+        
         if (null === $commits) {
             return null;
         }
@@ -92,10 +86,8 @@ class CommitsService extends AbstractService
             array(
                 'until' => 'refs/heads/' . $branch
             )
-        );
-        
+        );        
         $data = $this->getResponseAsArray($url);
-
         if (false === isset($data['values'])) {
             return null;
         }

@@ -2,12 +2,27 @@
 
 namespace StashApiBundle\Service;
 
+use Guzzle\Http\Client;
 
 /**
  * Base class that contain common features that is needed by other classes.
  */
 abstract class AbstractService
-{        
+{ 
+    /**
+     *
+     * @var Guzzle\Http\Client 
+     */
+    protected $client;
+    
+    /**
+     * Constructor. 
+     */
+    public function __construct(Client $client)
+    {         
+        $this->client = $client;        
+    } 
+    
     protected $resultLimit = 25;
             
      /**
@@ -37,7 +52,6 @@ abstract class AbstractService
     {
         $url = sprintf('projects/%s/repos/%s/%s', $project, $repository, $path);
         $params = array_merge($params, array('limit' => $this->resultLimit));
-
         $url = $url . '?' . http_build_query($params);
 
         return $url;
