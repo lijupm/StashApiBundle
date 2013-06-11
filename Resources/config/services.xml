@@ -19,14 +19,14 @@
                 </argument>
             </argument>
         </service>
-        <service id="stash_api.branches" class="%stash_api.branches.class%" public="true">   
-            <argument type="service" id="stash_api.rest_client"></argument>                            
+        <service id="stash_api.branches" class="%stash_api.branches.class%" public="true">
+            <argument type="service" id="stash_api.rest_client"></argument>
         </service>
-        <service id="stash_api.files" class="%stash_api.files.class%" public="true">   
-            <argument type="service" id="stash_api.rest_client"></argument>                            
+        <service id="stash_api.files" class="%stash_api.files.class%" public="true">
+            <argument type="service" id="stash_api.rest_client"></argument>
         </service>
-        <service id="stash_api.commits" class="%stash_api.commits.class%" public="true">   
-            <argument type="service" id="stash_api.rest_client"></argument>                            
+        <service id="stash_api.commits" class="%stash_api.commits.class%" public="true">
+            <argument type="service" id="stash_api.rest_client"></argument>
             <argument type="service" id="stash_api.branches"></argument>
         </service>
     </services>

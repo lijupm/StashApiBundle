@@ -6,31 +6,31 @@ use Guzzle\Http\Client;
 use StashApiBundle\Service\BranchesService;
 
 /**
- * Service class that deals with 'commits' related stash apis. 
+ * Service class that deals with 'commits' related stash apis.
  */
 class CommitsService extends AbstractService
-{         
+{
     /**
      *
-     * @var StashApiBundle\Service\BranchesService 
+     * @var StashApiBundle\Service\BranchesService
      */
     protected $branchService;
 
 
     /**
-     * Constructor. 
-     * 
+     * Constructor.
+     *
      * @param Guzzle\Http\Client $client
      * @param StashApiBundle\Service\BranchesService $branchService
      */
     public function __construct(Client $client, BranchesService $branchService)
-    {         
+    {
         $this->client = $client;
         $this->branchService = $branchService;
     }
-    
+
     /**
-     * Get a list of merged branches as an array based on 
+     * Get a list of merged branches as an array based on
      * Git normal merge commits.
      *
      * This means, if the commit message is heavily modified this method will
@@ -46,11 +46,12 @@ class CommitsService extends AbstractService
     {
         $commits = null;
         $matchingBranches = $this->branchService->searchBranch($baseBranch, $project, $repository);
+
         if (count($matchingBranches) > 0) {
-            $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);        
+            $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);
         }
         $filteredCommits = array();
-        
+
         if (null === $commits) {
             return null;
         }
@@ -86,12 +87,12 @@ class CommitsService extends AbstractService
             array(
                 'until' => 'refs/heads/' . $branch
             )
-        );        
+        );
         $data = $this->getResponseAsArray($url);
         if (false === isset($data['values'])) {
             return null;
         }
 
         return $data['values'];
-    }   
+    }
 }

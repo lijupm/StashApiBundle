@@ -26,7 +26,8 @@ class StashApiExtension extends Extension
         $loader->load('services.xml');
     }
 
-    public function getAlias() {
+    public function getAlias()
+    {
        return 'stash_api';
     }
 }
