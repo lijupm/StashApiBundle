@@ -48,25 +48,16 @@ class CommitsService extends AbstractService
         $matchingBranches = $this->branchService->searchBranch($baseBranch, $project, $repository);
 
         if (count($matchingBranches) > 0) {
-            $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);
+            $params = array(
+                'until' => sprintf('refs/heads/%s', $baseBranch)
+            );
+            $commits  = $this->getCommits($project, $repository, $params);
         }
-        $filteredCommits = array();
-
         if (null === $commits) {
             return null;
         }
-
-        foreach ($commits as $commit) {
-            if (preg_match('/^Merge .* from (.*) to .*/', $commit['message'], $matches)) {
-                $filteredCommits[] = $matches[1];
-            }
-        }
-
-        if (count($filteredCommits) == 0) {
-            return null;
-        }
-
-        return $filteredCommits;
+        
+        return $this->filterMergeCommits($commits);
     }
 
     /**
@@ -78,15 +69,13 @@ class CommitsService extends AbstractService
      *
      * @return null|array
      */
-    public function getCommitsFromBranch($branch, $project, $repository)
-    {
+    public function getCommits($project, $repository, $params = array())
+    {        
         $url = $this->createUrl(
             $project,
             $repository,
             'commits',
-            array(
-                'until' => 'refs/heads/' . $branch
-            )
+            $params
         );
         $data = $this->getResponseAsArray($url);
         if (false === isset($data['values'])) {
@@ -94,5 +83,29 @@ class CommitsService extends AbstractService
         }
 
         return $data['values'];
+    }
+    
+    /**
+     * Method to filter merge commits from given array of commits.
+     * 
+     * @param array $commits
+     * 
+     * @return null|array
+     */
+    public function filterMergeCommits(array $commits)
+    {
+        $filteredCommits = array();
+        
+        foreach ($commits as $commit) {
+            if (preg_match('/^Merge .* from (.*) to .*/', $commit['message'], $matches)) {
+                $filteredCommits[] = $matches[1];
+            }
+        }
+
+        if (count($filteredCommits) == 0) {
+            return null;
+        }
+
+        return $filteredCommits;
     }
 }

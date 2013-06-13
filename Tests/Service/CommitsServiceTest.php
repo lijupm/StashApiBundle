@@ -14,7 +14,10 @@ class CommitsServiceTest extends TestCase
         $branchJsonFile = __DIR__ . '/../assets/response/branch.json';
         $branchService = new BranchesService($this->getClientMock($branchJsonFile));
         $commitService = new CommitsService($this->getClientMock($commitJsonFile), $branchService);
-        $commits = $commitService->getCommitsFromBranch('develop', 'sample', 'samplerepo');
+        $params = array(
+            'until' => 'refs/heads/develop'
+        );
+        $commits = $commitService->getCommits('sample', 'samplerepo', $params);
 
         $this->assertEquals('9d42bb9baff767da49cc2c7697b6c78ced93f711', $commits[0]['id']);
         $this->assertCount(3, $commits);
