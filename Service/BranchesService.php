@@ -3,10 +3,10 @@
 namespace StashApiBundle\Service;
 
 /**
- * Service class that deals with 'branch' related stash apis. 
+ * Service class that deals with 'branch' related stash apis.
  */
 class BranchesService extends AbstractService
-{               
+{
     /**
      * Search branches in a given project repository.
      *
@@ -25,7 +25,7 @@ class BranchesService extends AbstractService
             array(
                 'filterText' => $branch
             )
-        );        
+        );
         $data = $this->getResponseAsArray($url);
 
         if (false === isset($data['values'])) {
@@ -33,5 +33,5 @@ class BranchesService extends AbstractService
         }
 
         return $data['values'];
-    }   
+    }
 }
