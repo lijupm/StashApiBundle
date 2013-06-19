@@ -2,16 +2,12 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <parameters>
-        <parameter key="stash_api.rest_client.class">Guzzle\Http\Client</parameter>
+    <parameters>        
         <parameter key="stash_api.base.class">StashApiBundle\Service\BaseService</parameter>
-        <parameter key="stash_api.limit">100</parameter>
-        <parameter key="stash_api.commits.class">StashApiBundle\Service\CommitsService</parameter>
-        <parameter key="stash_api.branches.class">StashApiBundle\Service\BranchesService</parameter>
-        <parameter key="stash_api.files.class">StashApiBundle\Service\FilesService</parameter>
+        <parameter key="stash_api.limit">100</parameter>        
     </parameters>
     <services>
-        <service id="stash_api.rest_client" class="%stash_api.rest_client.class%" public="false">
+        <service id="stash_api.rest_client" class="Guzzle\Http\Client" public="false">
             <argument key="baseUrl">%stash_api.url%</argument>
             <argument type="collection">
                 <argument key="curl.options" type="collection">
@@ -19,15 +15,18 @@
                 </argument>
             </argument>
         </service>
-        <service id="stash_api.branches" class="%stash_api.branches.class%" public="true">
-            <argument type="service" id="stash_api.rest_client"></argument>
+        <service id="stash_api.branches" class="StashApiBundle\Service\BranchesService" public="true">   
+            <argument type="service" id="stash_api.rest_client"></argument>                            
         </service>
-        <service id="stash_api.files" class="%stash_api.files.class%" public="true">
-            <argument type="service" id="stash_api.rest_client"></argument>
+        <service id="stash_api.files" class="StashApiBundle\Service\FilesService" public="true">   
+            <argument type="service" id="stash_api.rest_client"></argument>                            
         </service>
-        <service id="stash_api.commits" class="%stash_api.commits.class%" public="true">
-            <argument type="service" id="stash_api.rest_client"></argument>
+        <service id="stash_api.commits" class="StashApiBundle\Service\CommitsService" public="true">   
+            <argument type="service" id="stash_api.rest_client"></argument>                            
             <argument type="service" id="stash_api.branches"></argument>
+        </service>
+        <service id="stash_api.tags" class="StashApiBundle\Service\TagsService" public="true">   
+            <argument type="service" id="stash_api.rest_client"></argument>                            
         </service>
     </services>
 </container>

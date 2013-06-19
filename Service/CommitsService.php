@@ -81,7 +81,7 @@ class CommitsService extends AbstractService
         if (false === isset($data['values'])) {
             return null;
         }
-
+        
         return $data['values'];
     }
     
