@@ -27,7 +27,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         $request = $this->getMock('Guzzle\Http\Message\RequestInterface');
         $request
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('send')
             ->will($this->returnValue(new JsonResponseMock($jsonFile)));
 
@@ -36,7 +36,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $client
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('get')
             ->will($this->returnValue($request));
 

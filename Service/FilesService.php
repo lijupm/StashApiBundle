@@ -6,7 +6,7 @@ namespace StashApiBundle\Service;
  * Service class that deals with 'files' related stash apis.
  */
 class FilesService extends AbstractService
-{            
+{
     /**
      * Get files from given branch from given path.
      *
@@ -17,7 +17,7 @@ class FilesService extends AbstractService
      *
      * @return null|array
      */
-    public function getFilesFromBranch($project, $repository, $branch, $path)
+    public function getFilesFromBranch($project, $repository, $branch, $path='.')
     {
         $url = $this->createUrl(
             $project,
@@ -26,7 +26,7 @@ class FilesService extends AbstractService
             array(
                 'at' => $branch
             )
-        );        
+        );
         $data = $this->getResponseAsArray($url);
 
         if (false === isset($data['values'])) {
@@ -34,5 +34,5 @@ class FilesService extends AbstractService
         }
 
         return $data['values'];
-    }   
+    }
 }
