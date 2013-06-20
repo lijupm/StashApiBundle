@@ -8,23 +8,23 @@ use Guzzle\Http\Client;
  * Base class that contain common features that is needed by other classes.
  */
 abstract class AbstractService
-{ 
+{
     /**
      *
-     * @var Guzzle\Http\Client 
+     * @var Guzzle\Http\Client
      */
     protected $client;
-    
+
     /**
-     * Constructor. 
+     * Constructor.
      */
     public function __construct(Client $client)
-    {         
-        $this->client = $client;        
-    } 
-    
+    {
+        $this->client = $client;
+    }
+
     protected $resultLimit = 1000;
-            
+
      /**
      * Set the maximum number of results being fetched from the REST api.
      *
@@ -38,7 +38,7 @@ abstract class AbstractService
 
         return $this;
     }
-    
+
     /**
      * Creates and returns an stash compatible URL
      *
@@ -56,7 +56,7 @@ abstract class AbstractService
 
         return $url;
     }
-    
+
     /**
      * Get response from Stash for the given API call.
      *
@@ -71,4 +71,4 @@ abstract class AbstractService
 
         return $response->json();
     }
-}    
+}

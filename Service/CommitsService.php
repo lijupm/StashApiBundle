@@ -56,7 +56,7 @@ class CommitsService extends AbstractService
         if (null === $commits) {
             return null;
         }
-        
+
         return $this->filterMergeCommits($commits);
     }
 
@@ -70,7 +70,7 @@ class CommitsService extends AbstractService
      * @return null|array
      */
     public function getCommits($project, $repository, $params = array())
-    {        
+    {
         $url = $this->createUrl(
             $project,
             $repository,
@@ -81,21 +81,21 @@ class CommitsService extends AbstractService
         if (false === isset($data['values'])) {
             return null;
         }
-        
+
         return $data['values'];
     }
-    
+
     /**
      * Method to filter merge commits from given array of commits.
-     * 
+     *
      * @param array $commits
-     * 
+     *
      * @return null|array
      */
     public function filterMergeCommits(array $commits)
     {
         $filteredCommits = array();
-        
+
         foreach ($commits as $commit) {
             if (preg_match('/^Merge .* from (.*) to .*/', $commit['message'], $matches)) {
                 $filteredCommits[] = $matches[1];

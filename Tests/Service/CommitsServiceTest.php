@@ -27,7 +27,7 @@ class CommitsServiceTest extends TestCase
     {
         $jsonFile = __DIR__ . '/../assets/response/commits.json';
         $branchJsonFile = __DIR__ . '/../assets/response/branch.json';
-        $branchService = new BranchesService($this->getClientMock($branchJsonFile));        
+        $branchService = new BranchesService($this->getClientMock($branchJsonFile));
         $service = new CommitsService($this->getClientMock($jsonFile), $branchService);
         $branches = $service->getMergedBranchesFromBranch('develop', 'sample', 'samplerepo');
 

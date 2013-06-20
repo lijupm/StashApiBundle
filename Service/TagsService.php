@@ -10,17 +10,6 @@ use Guzzle\Http\Client;
 class TagsService extends AbstractService
 {    
     /**
-     * Constructor.
-     *
-     * @param Guzzle\Http\Client $client     
-     */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;        
-    }
-
-    
-    /**
      * Retrieve tags from given repository.
      *
      * @param string $project
@@ -30,18 +19,18 @@ class TagsService extends AbstractService
      * @return null|array
      */
     public function getTags($project, $repository, $params = array())
-    {        
+    {
         $url = $this->createUrl(
             $project,
             $repository,
             'tags',
             $params
-        );        
+        );
         $data = $this->getResponseAsArray($url);
         if (false === isset($data['values'])) {
             return null;
         }
-        
+
         return $data['values'];
-    }       
+    }
 }

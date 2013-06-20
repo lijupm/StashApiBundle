@@ -26,7 +26,7 @@ class FilesService extends AbstractService
             array(
                 'at' => $branch
             )
-        );        
+        );
         $data = $this->getResponseAsArray($url);
 
         if (false === isset($data['values'])) {
@@ -34,5 +34,5 @@ class FilesService extends AbstractService
         }
 
         return $data['values'];
-    }   
+    }
 }
