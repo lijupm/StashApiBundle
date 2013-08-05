@@ -3,30 +3,27 @@
 namespace StashApiBundle\Service;
 
 /**
- * Service class that deals with 'files' related stash apis.
+ * Service class that deals with pull-requests in Stash. 
  */
-class FilesService extends AbstractService
-{            
+class PullRequestService extends AbstractService
+{               
     /**
-     * Get files from given branch from given path.
+     * Retrieve all pull-requests in a given project and repository.
      *
      * @param string $project
      * @param string $repository
-     * @param string $branch
-     * @param string $path
+     * @param array  $options
      *
      * @return null|array
      */
-    public function getFilesFromBranch($project, $repository, $branch, $path = '')
+    public function getAll($project, $repository, $options = array())
     {
         $url = $this->createUrl(
             $project,
             $repository,
-            sprintf('files/%s', $path),
-            array(
-                'at' => $branch
-            )
-        );        
+            'pull-requests',
+            $options
+        );
         $data = $this->getResponseAsArray($url);
 
         if (false === isset($data['values'])) {

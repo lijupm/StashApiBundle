@@ -10,11 +10,15 @@ use Guzzle\Http\Client;
 abstract class AbstractService
 { 
     /**
-     *
-     * @var Guzzle\Http\Client 
+     * @var Guzzle\Http\Client
      */
     protected $client;
-    
+
+    /**
+     * @var int
+     */
+    protected $resultLimit = 100;
+
     /**
      * Constructor. 
      */
@@ -23,9 +27,7 @@ abstract class AbstractService
         $this->client = $client;        
     } 
     
-    protected $resultLimit = 25;
-            
-     /**
+    /**
      * Set the maximum number of results being fetched from the REST api.
      *
      * @param integer $limit

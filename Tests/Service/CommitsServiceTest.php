@@ -4,7 +4,6 @@ namespace StashApiBundle\Tests\Service;
 
 use StashApiBundle\Tests\TestCase;
 use StashApiBundle\Service\CommitsService;
-use StashApiBundle\Tests\JsonResponseMock;
 
 class CommitsServiceTest extends TestCase
 {

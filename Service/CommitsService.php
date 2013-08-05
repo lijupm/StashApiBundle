@@ -9,24 +9,15 @@ use StashApiBundle\Service\BranchesService;
  * Service class that deals with 'commits' related stash apis. 
  */
 class CommitsService extends AbstractService
-{         
-    /**
-     *
-     * @var StashApiBundle\Service\BranchesService 
-     */
-    protected $branchService;
-
-
+{
     /**
      * Constructor. 
      * 
      * @param Guzzle\Http\Client $client
-     * @param StashApiBundle\Service\BranchesService $branchService
      */
-    public function __construct(Client $client, BranchesService $branchService)
+    public function __construct(Client $client)
     {         
         $this->client = $client;
-        $this->branchService = $branchService;
     }
     
     /**
@@ -44,13 +35,9 @@ class CommitsService extends AbstractService
      */
     public function getMergedBranchesFromBranch($baseBranch, $project, $repository)
     {
-        $commits = null;
-        $matchingBranches = $this->branchService->searchBranch($baseBranch, $project, $repository);
-        if (count($matchingBranches) > 0) {
-            $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);        
-        }
         $filteredCommits = array();
-        
+
+        $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);
         if (null === $commits) {
             return null;
         }
