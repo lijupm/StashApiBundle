@@ -15,6 +15,7 @@ class BranchesServiceTest extends TestCase
         $pullRequests = $service->searchBranch('develop', 'mcis', 'mcis');
 
         $this->assertCount(25, $pullRequests);
+    }
 
     public function testGetCommitsFromBranch()
     {
