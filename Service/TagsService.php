@@ -2,32 +2,31 @@
 
 namespace StashApiBundle\Service;
 
+use Guzzle\Http\Client;
+
 /**
- * Service class that deals with 'branch' related stash apis.
+ * Service class that deals with 'tags' related stash apis.
  */
-class BranchesService extends AbstractService
-{
+class TagsService extends AbstractService
+{    
     /**
-     * Search branches in a given project repository.
+     * Retrieve tags from given repository.
      *
-     * @param string $branch
      * @param string $project
      * @param string $repository
+     * @param array $params
      *
      * @return null|array
      */
-    public function searchBranch($branch, $project, $repository)
+    public function getTags($project, $repository, $params = array())
     {
         $url = $this->createUrl(
             $project,
             $repository,
-            'branches',
-            array(
-                'filterText' => $branch
-            )
+            'tags',
+            $params
         );
         $data = $this->getResponseAsArray($url);
-
         if (false === isset($data['values'])) {
             return null;
         }
