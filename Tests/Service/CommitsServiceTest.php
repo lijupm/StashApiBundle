@@ -12,18 +12,21 @@ class CommitsServiceTest extends TestCase
         $jsonFile = __DIR__ . '/../assets/response/commits.json';
 
         $service = new CommitsService($this->getClientMock($jsonFile));
-        $commits = $service->getCommitsFromBranch('develop', 'sample', 'samplerepo');
+        $params = array(
+            'until' => 'refs/heads/develop'
+        );
+        $commits = $service->getCommits('develop', 'sample', $params);
 
         $this->assertEquals('9d42bb9baff767da49cc2c7697b6c78ced93f711', $commits[0]['id']);
         $this->assertCount(3, $commits);
     }
 
-    public function testGetMergedBranchesFromBranch()
+    public function testGetMergedBranches()
     {
         $jsonFile = __DIR__ . '/../assets/response/commits.json';
 
         $service = new CommitsService($this->getClientMock($jsonFile));
-        $branches = $service->getMergedBranchesFromBranch('develop', 'sample', 'samplerepo');
+        $branches = $service->getMergedBranches('develop', 'sample', 'samplerepo');
 
         $this->assertEquals(array('feature/test-feature'), $branches);
     }

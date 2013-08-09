@@ -33,11 +33,13 @@ class CommitsService extends AbstractService
      *
      * @return null|array
      */
-    public function getMergedBranchesFromBranch($baseBranch, $project, $repository)
+    public function getMergedBranches($project, $repository, $baseBranch)
     {
-        $filteredCommits = array();
+        $params = array(
+            'until' => sprintf('refs/heads/%s', $baseBranch)
+        );
 
-        $commits  = $this->getCommitsFromBranch($baseBranch, $project, $repository);
+        $commits  = $this->getCommits($project, $repository, $params);
         if (null === $commits) {
             return null;
         }
@@ -48,9 +50,9 @@ class CommitsService extends AbstractService
     /**
      * Retrieve commits from a given branch name. And returns null when none found.
      *
-     * @param string $branch
      * @param string $project
      * @param string $repository
+     * @param array $params
      *
      * @return null|array
      */
@@ -63,6 +65,7 @@ class CommitsService extends AbstractService
             $params
         );
         $data = $this->getResponseAsArray($url);
+
         if (false === isset($data['values'])) {
             return null;
         }
@@ -77,7 +80,7 @@ class CommitsService extends AbstractService
      *
      * @return null|array
      */
-    public function filterMergeCommits(array $commits)
+    private function filterMergeCommits(array $commits)
     {
         $filteredCommits = array();
 

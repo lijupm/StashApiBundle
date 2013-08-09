@@ -48,7 +48,7 @@ abstract class AbstractService
      *
      * @return string
      */
-    protected function createUrl($project, $repository, $path, array $params = array())
+    protected function createUrl($project, $repository, $path, $params = array())
     {
         $url = sprintf('projects/%s/repos/%s/%s', $project, $repository, $path);
         $params = array_merge($params, array('limit' => $this->resultLimit));
