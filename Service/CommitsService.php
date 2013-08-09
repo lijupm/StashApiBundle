@@ -6,31 +6,22 @@ use Guzzle\Http\Client;
 use StashApiBundle\Service\BranchesService;
 
 /**
- * Service class that deals with 'commits' related stash apis.
+ * Service class that deals with 'commits' related stash apis. 
  */
 class CommitsService extends AbstractService
 {
     /**
-     *
-     * @var StashApiBundle\Service\BranchesService
-     */
-    protected $branchService;
-
-
-    /**
-     * Constructor.
-     *
+     * Constructor. 
+     * 
      * @param Guzzle\Http\Client $client
-     * @param StashApiBundle\Service\BranchesService $branchService
      */
-    public function __construct(Client $client, BranchesService $branchService)
-    {
+    public function __construct(Client $client)
+    {         
         $this->client = $client;
-        $this->branchService = $branchService;
     }
-
+    
     /**
-     * Get a list of merged branches as an array based on
+     * Get a list of merged branches as an array based on 
      * Git normal merge commits.
      *
      * This means, if the commit message is heavily modified this method will
@@ -42,17 +33,13 @@ class CommitsService extends AbstractService
      *
      * @return null|array
      */
-    public function getMergedBranchesFromBranch($baseBranch, $project, $repository)
+    public function getMergedBranches($project, $repository, $baseBranch)
     {
-        $commits = null;
-        $matchingBranches = $this->branchService->searchBranch($baseBranch, $project, $repository);
+        $params = array(
+            'until' => sprintf('refs/heads/%s', $baseBranch)
+        );
 
-        if (count($matchingBranches) > 0) {
-            $params = array(
-                'until' => sprintf('refs/heads/%s', $baseBranch)
-            );
-            $commits  = $this->getCommits($project, $repository, $params);
-        }
+        $commits  = $this->getCommits($project, $repository, $params);
         if (null === $commits) {
             return null;
         }
@@ -63,9 +50,9 @@ class CommitsService extends AbstractService
     /**
      * Retrieve commits from a given branch name. And returns null when none found.
      *
-     * @param string $branch
      * @param string $project
      * @param string $repository
+     * @param array $params
      *
      * @return null|array
      */
@@ -78,6 +65,7 @@ class CommitsService extends AbstractService
             $params
         );
         $data = $this->getResponseAsArray($url);
+
         if (false === isset($data['values'])) {
             return null;
         }
@@ -92,7 +80,7 @@ class CommitsService extends AbstractService
      *
      * @return null|array
      */
-    public function filterMergeCommits(array $commits)
+    private function filterMergeCommits(array $commits)
     {
         $filteredCommits = array();
 

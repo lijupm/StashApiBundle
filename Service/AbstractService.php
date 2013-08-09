@@ -8,23 +8,23 @@ use Guzzle\Http\Client;
  * Base class that contain common features that is needed by other classes.
  */
 abstract class AbstractService
-{
+{ 
     /**
      *
-     * @var Guzzle\Http\Client
+     * @var Guzzle\Http\Client 
      */
     protected $client;
 
     /**
-     * Constructor.
+     * Constructor. 
      */
     public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
+    {         
+        $this->client = $client;        
+    } 
 
-    protected $resultLimit = 1000;
-
+    protected $resultLimit = 25;
+            
      /**
      * Set the maximum number of results being fetched from the REST api.
      *
@@ -48,7 +48,7 @@ abstract class AbstractService
      *
      * @return string
      */
-    protected function createUrl($project, $repository, $path, array $params = array())
+    protected function createUrl($project, $repository, $path, $params = array())
     {
         $url = sprintf('projects/%s/repos/%s/%s', $project, $repository, $path);
         $params = array_merge($params, array('limit' => $this->resultLimit));

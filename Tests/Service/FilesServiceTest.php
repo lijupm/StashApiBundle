@@ -7,13 +7,23 @@ use StashApiBundle\Service\FilesService;
 
 class FilesServiceTest extends TestCase
 {
-    public function testGetCommitsFromBranch()
+    public function testGetAll()
     {
-        $fileJsonFile = __DIR__ . '/../assets/response/file.json';
-        $fileService = new FilesService($this->getClientMock($fileJsonFile));
-        $files = $fileService->getFilesFromBranch('sample', 'samplerepo', 'develop');
+        $jsonFile = __DIR__ . '/../assets/response/files.json';
 
-        $this->assertEquals('Version20130513105519.php', $files[1]);
-        $this->assertCount(2, $files);
+        $service = new FilesService($this->getClientMock($jsonFile));
+        $files = $service->getFilesFromBranch('mcis', 'mcis', 'develop');
+
+        $this->assertCount(22, $files);
+    }
+
+    public function testGetAllFiltered()
+    {
+        $jsonFile = __DIR__ . '/../assets/response/files-with-path.json';
+
+        $service = new FilesService($this->getClientMock($jsonFile));
+        $files = $service->getFilesFromBranch('mcis', 'mcis', 'develop', 'mcis');
+
+        $this->assertCount(22, $files);
     }
 }

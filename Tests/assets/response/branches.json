@@ -1,0 +1,160 @@
+{
+    "size": 25,
+    "limit": 25,
+    "isLastPage": false,
+    "values": [
+        {
+            "id": "refs/heads/project/test",
+            "displayId": "project/test",
+            "latestChangeset": "cb1fae83ea0927e5001c66621271410a940f3246",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/project/test",
+            "displayId": "project/test",
+            "latestChangeset": "54e5e162a715cf6110f40cccfb28c4dd71355218",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/project/test",
+            "displayId": "project/test",
+            "latestChangeset": "012acc9aaf3d43630256a2d871dc50ca256b935c",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "333b3e92bc399e3152089ab3b4e12bbd90138ec6",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "695cfc03f82355bbd5e0da9d1a4400ae1615d8d3",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "794905eda05771be55a3fa4e4734f64c59bbfda9",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "a3b823d576f436fc49917b9b7a2037934073e79c",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "7a2c280427268bdeb8cb44faba394b96376ce1a3",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "b7a14855be3eff35278a42e486d87cd2f86ef3af",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "e5ad2bca2ee64d75b16d67f363c7bf8b85542b57",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "24e73bfa96eed2aaa447216d17746940081d441f",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "cdb55837c2977d484bcc2734200b33533dfa2b2c",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "4380802e254ad6abc32b50f53ab8d573053a9fd5",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "a590b60203d9418f97652b3d44057ae875e6379b",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "38dce396d63b03288d07b4cc32219f829f599f50",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "b3db3fa87cb8901bd9442798d317febb5676f8e6",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "33739a4bb579c18465068447e7d8726cd6e4e865",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/develop",
+            "displayId": "develop",
+            "latestChangeset": "7bb26d2e4c6c35c1b1559d5c97675835970734c6",
+            "isDefault": true
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "efbbe570cb8065205358916051256d811a40b875",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "faea72cdb58ac5803c352923afe54b959ee31813",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "21cfdd0b3a5082dd4ac81725eeec1c2d0e788109",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "e7876aff7770665b757f8586447f0fbb23dd5601",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "0a4333e523792b811bea0f9049199396a575028b",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "554a18a9767cc033f677fe7ba8b90e261ebe2b36",
+            "isDefault": false
+        },
+        {
+            "id": "refs/heads/feature/test",
+            "displayId": "feature/test",
+            "latestChangeset": "434e6546497d294fe9db299aa15b782cc36f66c4",
+            "isDefault": false
+        }
+    ],
+    "start": 0,
+    "filter": null,
+    "nextPageStart": 25
+}
