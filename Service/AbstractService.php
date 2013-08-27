@@ -8,10 +8,29 @@ use Guzzle\Http\Client;
  * Base class that contain common features that is needed by other classes.
  */
 abstract class AbstractService
-{ 
+{
     /**
-     *
-     * @var Guzzle\Http\Client 
+     * @var bool
+     */
+    private $lastPage = false;
+
+    /**
+     * @var int
+     */
+    private $size = 0;
+
+    /**
+     * @var int
+     */
+    private $limit = 10000;
+
+    /**
+     * @var int
+     */
+    private $start = 0;
+
+    /**
+     * @var \Guzzle\Http\Client
      */
     protected $client;
 
@@ -23,52 +42,120 @@ abstract class AbstractService
         $this->client = $client;        
     } 
 
-    protected $resultLimit = 25;
-            
-     /**
-     * Set the maximum number of results being fetched from the REST api.
-     *
-     * @param integer $limit
-     *
-     * @return self
-     */
-    public function setResultLimit($limit)
-    {
-        $this->resultLimit = $limit;
-
-        return $this;
-    }
-
     /**
-     * Creates and returns an stash compatible URL
+     * Creates and returns a Stash compatible URL.
      *
      * @param string $project
      * @param string $repository
+     * @param string $path
      * @param array  $params
      *
      * @return string
      */
-    protected function createUrl($project, $repository, $path, $params = array())
+    protected function createUrl($project, $repository, $path = '', $params = array())
     {
-        $url = sprintf('projects/%s/repos/%s/%s', $project, $repository, $path);
-        $params = array_merge($params, array('limit' => $this->resultLimit));
-        $url = $url . '?' . http_build_query($params);
+        $url = sprintf(
+            'projects/%s/repos/%s/%s?%s',
+            $project,
+            $repository,
+            $path,
+            http_build_query(
+                array_merge(
+                    $params,
+                    array(
+                        'limit' => $this->limit,
+                        'start' => $this->start
+                    )
+                )
+            )
+        );
+
+        $this->start    = 0;
+        $this->size     = 0;
+        $this->lastPage = false;
 
         return $url;
     }
 
     /**
-     * Get response from Stash for the given API call.
+     * Get response as an array, returns false if no result.
      *
      * @param string $url
      *
-     * @return array
+     * @return bool|array
      */
     protected function getResponseAsArray($url)
     {
-        $request = $this->client->get($url);
+        $request  = $this->client->get($url);
         $response = $request->send();
+        $result   = $response->json();
 
-        return $response->json();
+        $this->lastPage = $result['isLastPage'];
+        $this->size = $result['size'];
+        if (!$this->lastPage) {
+            $this->start += $this->limit;
+        }
+
+        if ($this->resultHasData($result)) {
+            return $result['values'];
+        }
+
+        return false;
+    }
+
+    /**
+     * Set the result limit.
+     *
+     * @param integer $limit
+     *
+     * @return self
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
+     * Returns the size of the current result set.
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * Indicates whether the current result set is the last.
+     *
+     * @return bool
+     */
+    public function isLastPage()
+    {
+        return $this->lastPage;
+    }
+
+    /**
+     * Returns the start of the result page.
+     *
+     * @return int
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Does result contain data?
+     *
+     * @param $result
+     *
+     * @return bool
+     */
+    private function resultHasData($result)
+    {
+        return (array_key_exists('values', $result) && count($result['values']) > 0);
     }
 }

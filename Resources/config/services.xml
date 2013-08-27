@@ -14,17 +14,21 @@
                 </argument>
             </argument>
         </service>
-        <service id="stash_api.branches" class="StashApiBundle\Service\BranchesService" public="true">
+
+        <service id="stash_api.branch" class="StashApiBundle\Service\BranchService" public="true">
             <argument type="service" id="stash_api.rest_client"></argument>
         </service>
-        <service id="stash_api.files" class="StashApiBundle\Service\FilesService" public="true">
+
+        <service id="stash_api.file" class="StashApiBundle\Service\FileService" public="true">
             <argument type="service" id="stash_api.rest_client"></argument>
         </service>
-        <service id="stash_api.commits" class="StashApiBundle\Service\CommitsService" public="true">
+
+        <service id="stash_api.commit" class="StashApiBundle\Service\CommitService" public="true">
             <argument type="service" id="stash_api.rest_client"></argument>
-            <argument type="service" id="stash_api.branches"></argument>
+            <argument type="service" id="stash_api.branch"></argument>
         </service>
-        <service id="stash_api.tags" class="StashApiBundle\Service\TagsService" public="true">
+
+        <service id="stash_api.tag" class="StashApiBundle\Service\TagService" public="true">
             <argument type="service" id="stash_api.rest_client"></argument>
         </service>
     </services>

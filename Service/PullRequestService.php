@@ -3,7 +3,7 @@
 namespace StashApiBundle\Service;
 
 /**
- * Service class that deals with pull-requests in Stash. 
+ * Service class that handles pull-requests in Stash.
  */
 class PullRequestService extends AbstractService
 {               
@@ -12,24 +12,19 @@ class PullRequestService extends AbstractService
      *
      * @param string $project
      * @param string $repository
-     * @param array  $options
+     * @param array  $params
      *
      * @return null|array
      */
-    public function getAll($project, $repository, $options = array())
+    public function getAll($project, $repository, $params = array())
     {
         $url = $this->createUrl(
             $project,
             $repository,
             'pull-requests',
-            $options
+            $params
         );
-        $data = $this->getResponseAsArray($url);
 
-        if (false === isset($data['values'])) {
-            return null;
-        }
-
-        return $data['values'];
-    }   
+        return $this->getResponseAsArray($url);
+    }
 }
