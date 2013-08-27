@@ -7,18 +7,18 @@ use Guzzle\Http\Client;
 /**
  * Service class that deals with 'tags' related stash apis.
  */
-class TagsService extends AbstractService
+class TagService extends AbstractService
 {    
     /**
      * Retrieve tags from given repository.
      *
      * @param string $project
      * @param string $repository
-     * @param array $params
+     * @param array  $params
      *
      * @return null|array
      */
-    public function getTags($project, $repository, $params = array())
+    public function getAll($project, $repository, $params = array())
     {
         $url = $this->createUrl(
             $project,
@@ -26,11 +26,7 @@ class TagsService extends AbstractService
             'tags',
             $params
         );
-        $data = $this->getResponseAsArray($url);
-        if (false === isset($data['values'])) {
-            return null;
-        }
 
-        return $data['values'];
+        return $this->getResponseAsArray($url);
     }
 }
