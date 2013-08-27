@@ -80,7 +80,7 @@ class CommitsService extends AbstractService
      *
      * @return null|array
      */
-    private function filterMergeCommits(array $commits)
+    public function filterMergeCommits(array $commits)
     {
         $filteredCommits = array();
 
