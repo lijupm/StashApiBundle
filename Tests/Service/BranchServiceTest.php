@@ -9,7 +9,7 @@ class BranchServiceTest extends TestCase
 {
     public function testSearchBranch()
     {
-        $jsonFile = __DIR__ . '/../assets/response/branches.json';
+        $jsonFile = __DIR__ . '/../assets/response/branch.json';
 
         $service = new BranchService(
             $this
@@ -20,7 +20,7 @@ class BranchServiceTest extends TestCase
 
         $pullRequests = $service->searchBranch('develop', 'mcis', 'mcis');
 
-        $this->assertCount(25, $pullRequests);
+        $this->assertCount(2, $pullRequests);
     }
 
     public function testGetCommitsFromBranch()

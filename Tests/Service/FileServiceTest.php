@@ -7,35 +7,41 @@ use StashApiBundle\Service\FileService;
 
 class FileServiceTest extends TestCase
 {
-    public function testGetAll()
+    public function testFileServiceGetAll()
     {
         $jsonFile = __DIR__ . '/../assets/response/files.json';
 
         $service = new FileService(
-            $this
-                ->getClientMock(
-                    $jsonFile
-                )
+            $this->getClientMock(
+                $jsonFile
+            )
         );
 
-        $files = $service->getAll('PROJECT', 'repo', 'branch');
+        $service->setLimit(1000);
+        $files = $service->getAll('PROJECT', 'repository', 'path');
+
+        $this->assertEquals(1000, $service->getStart());
+        $this->assertEquals(25, $service->getSize());
+        $this->assertEquals(false, $service->isLastPage());
 
         $this->assertCount(22, $files);
     }
 
-    public function testGetAllFiltered()
+    public function testFileServiceGetAllException()
     {
-        $jsonFile = __DIR__ . '/../assets/response/files-with-path.json';
+        $service = new FileService($this->getClientExceptionMock());
 
-        $service = new FileService(
-            $this
-                ->getClientMock(
-                    $jsonFile
-                )
-        );
+        $result = $service->getAll('PROJECT', 'repository', 'path');
 
-        $files = $service->getAll('PROJECT', 'repo', 'branch', 'file');
+        $this->assertEquals(false, $result);
+    }
 
-        $this->assertCount(22, $files);
+    public function testFileServiceGetAllNoData()
+    {
+        $service = new FileService($this->getClientNoDataMock());
+
+        $result = $service->getAll('PROJECT', 'repository', 'path');
+
+        $this->assertEquals(false, $result);
     }
 }
