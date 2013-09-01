@@ -12,9 +12,7 @@ class FileServiceTest extends TestCase
         $jsonFile = __DIR__ . '/../assets/response/files.json';
 
         $service = new FileService(
-            $this->getClientMock(
-                $jsonFile
-            )
+            $this->getClientMock($jsonFile)
         );
 
         $service->setLimit(1000);
@@ -29,7 +27,7 @@ class FileServiceTest extends TestCase
 
     public function testFileServiceGetAllException()
     {
-        $service = new FileService($this->getClientExceptionMock());
+        $service = new FileService($this->getClientMockException());
 
         $result = $service->getAll('PROJECT', 'repository', 'path');
 
@@ -38,7 +36,7 @@ class FileServiceTest extends TestCase
 
     public function testFileServiceGetAllNoData()
     {
-        $service = new FileService($this->getClientNoDataMock());
+        $service = new FileService($this->getClientMockNoData());
 
         $result = $service->getAll('PROJECT', 'repository', 'path');
 

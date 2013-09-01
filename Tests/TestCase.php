@@ -15,12 +15,36 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Mocks a Guzzle client with specified request.
+     *
+     * @param mixed $request
+     *
+     * @return \Guzzle\Http\Client
+     */
+    private function mockClientWithRequest($request)
+    {
+        $client = $this
+            ->getMockBuilder('Guzzle\Http\Client')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $client
+            ->expects($this->any())
+            ->method('get')
+            ->will(
+                $this->returnValue($request)
+            );
+
+        return $client;
+    }
+
+    /**
      * Get a Guzzle client mock object which returns the specified
      * JSON file as an array.
      *
      * @param string $jsonFile
      *
-     * @return Guzzle\Http\Client
+     * @return \Guzzle\Http\Client
      *
      * @throws \RuntimeException
      */
@@ -31,32 +55,25 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
 
         $request = $this->getMock('Guzzle\Http\Message\RequestInterface');
+
         $request
             ->expects($this->any())
             ->method('send')
-            ->will($this->returnValue(new JsonResponseMock($jsonFile)));
+            ->will(
+                $this->returnValue(new JsonResponseMock($jsonFile))
+            );
 
-        $client = $this
-            ->getMockBuilder('Guzzle\Http\Client')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $client
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($request));
-
-        return $client;
+        return $this->mockClientWithRequest($request);
     }
 
     /**
      * Get a Guzzle client mock object which triggers a BadResponseException.
      *
-     * @return Guzzle\Http\Client
+     * @return \Guzzle\Http\Client
      *
      * @throws \RuntimeException
      */
-    protected function getClientExceptionMock()
+    protected function getClientMockException()
     {
         $request = $this
             ->getMockBuilder('Guzzle\Http\Message\ClientInterface')
@@ -67,52 +84,31 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('send')
             ->will(
-                $this
-                    ->throwException(
-                        new BadResponseException()
-                    )
+                $this->throwException(new BadResponseException())
             );
 
-        $client = $this
-            ->getMockBuilder('Guzzle\Http\Client')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $client
-            ->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($request));
-
-        return $client;
+        return $this->mockClientWithRequest($request);
     }
 
     /**
      * Get a Guzzle client mock object which returns no data.
      *
-     * @return Guzzle\Http\Client
+     * @return \Guzzle\Http\Client
      *
      * @throws \RuntimeException
      */
-    protected function getClientNoDataMock()
+    protected function getClientMockNoData()
     {
         $request = $this->getMock('Guzzle\Http\Message\RequestInterface');
+
         $request
             ->expects($this->any())
             ->method('send')
-            ->will($this->returnValue(new EmptyResponseMock()));
+            ->will(
+                $this->returnValue(new EmptyResponseMock())
+            );
 
-
-        $client = $this
-            ->getMockBuilder('Guzzle\Http\Client')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $client
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($request));
-
-        return $client;
+        return $this->mockClientWithRequest($request);
     }
 
     /**

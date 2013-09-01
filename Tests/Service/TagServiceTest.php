@@ -12,9 +12,7 @@ class TagServiceTest extends TestCase
         $jsonFile = __DIR__ . '/../assets/response/tags.json';
 
         $service = new TagService(
-            $this->getClientMock(
-                $jsonFile
-            )
+            $this->getClientMock($jsonFile)
         );
 
         $service->setLimit(1000);
@@ -29,7 +27,7 @@ class TagServiceTest extends TestCase
 
     public function testTagServiceGetAllException()
     {
-        $service = new TagService($this->getClientExceptionMock());
+        $service = new TagService($this->getClientMockException());
 
         $result = $service->getAll('PROJECT', 'repository');
 
@@ -38,7 +36,7 @@ class TagServiceTest extends TestCase
 
     public function testTagServiceGetAllNoData()
     {
-        $service = new TagService($this->getClientNoDataMock());
+        $service = new TagService($this->getClientMockNoData());
 
         $result = $service->getAll('PROJECT', 'repository');
 
