@@ -16,7 +16,7 @@ class BranchService extends AbstractService
      *
      * @return false|array
      */
-    public function searchBranch($repository, $project, $branch)
+    public function searchBranch($project, $repository, $branch)
     {
         $url = $this->createUrl(
             $project,

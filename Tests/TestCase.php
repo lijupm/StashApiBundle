@@ -15,8 +15,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get a Guzzle client mock object which also returns the
-     * JSON file as an array in our services.
+     * Get a Guzzle client mock object which returns the specified
+     * JSON file as an array.
      *
      * @param string $jsonFile
      *
@@ -50,8 +50,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get a Guzzle client mock object which triggers a
-     * BadResponseException in our services.
+     * Get a Guzzle client mock object which triggers a BadResponseException.
      *
      * @return Guzzle\Http\Client
      *
@@ -88,8 +87,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get a Guzzle client mock object which returns no
-     * data in our services.
+     * Get a Guzzle client mock object which returns no data.
      *
      * @return Guzzle\Http\Client
      *
