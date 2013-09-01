@@ -2,26 +2,38 @@
 
 namespace StashApiBundle\Service;
 
+use Guzzle\Http\Client;
+
 /**
- * Service class that handles pull requests.
+ * Service class that handles commits.
  */
-class PullRequestService extends AbstractService
+class CommitService extends AbstractService
 {
     /**
-     * Retrieve all pull requests for a specified project and repository.
+     * Constructor. 
+     * 
+     * @param \Guzzle\Http\Client $client
+     */
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * Retrieve commits from a specified branch, returns false if none found.
      *
      * @param string $project
      * @param string $repository
      * @param array  $params
      *
-     * @return null|array
+     * @return bool|array
      */
     public function getAll($project, $repository, $params = array())
     {
         $url = $this->createUrl(
             $project,
             $repository,
-            'pull-requests',
+            'commits',
             $params
         );
 

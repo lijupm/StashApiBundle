@@ -2,13 +2,15 @@
 
 namespace StashApiBundle\Service;
 
+use Guzzle\Http\Client;
+
 /**
- * Service class that handles pull requests.
+ * Service class that handles tags.
  */
-class PullRequestService extends AbstractService
+class TagService extends AbstractService
 {
     /**
-     * Retrieve all pull requests for a specified project and repository.
+     * Retrieve tags from specified project and repository.
      *
      * @param string $project
      * @param string $repository
@@ -21,7 +23,7 @@ class PullRequestService extends AbstractService
         $url = $this->createUrl(
             $project,
             $repository,
-            'pull-requests',
+            'tags',
             $params
         );
 
