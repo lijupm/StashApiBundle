@@ -12,9 +12,7 @@ class PullRequestServiceTest extends TestCase
         $jsonFile = __DIR__ . '/../assets/response/pull-requests.json';
 
         $service = new PullRequestService(
-            $this->getClientMock(
-                $jsonFile
-            )
+            $this->getClientMock($jsonFile)
         );
 
         $service->setLimit(1000);
@@ -29,7 +27,7 @@ class PullRequestServiceTest extends TestCase
 
     public function testPullRequestServiceGetAllException()
     {
-        $service = new PullRequestService($this->getClientExceptionMock());
+        $service = new PullRequestService($this->getClientMockException());
 
         $result = $service->getAll('PROJECT', 'repository');
 
@@ -38,7 +36,7 @@ class PullRequestServiceTest extends TestCase
 
     public function testPullRequestServiceGetAllNoData()
     {
-        $service = new PullRequestService($this->getClientNoDataMock());
+        $service = new PullRequestService($this->getClientMockNoData());
 
         $result = $service->getAll('PROJECT', 'repository');
 

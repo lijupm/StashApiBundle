@@ -7,36 +7,34 @@ use StashApiBundle\Service\BranchService;
 
 class BranchServiceTest extends TestCase
 {
-    public function testSearchBranch()
+    public function testBranchServiceSearchBranch()
     {
         $jsonFile = __DIR__ . '/../assets/response/branch.json';
 
         $service = new BranchService(
-            $this
-                ->getClientMock(
-                    $jsonFile
-                )
+            $this->getClientMock($jsonFile)
         );
 
-        $pullRequests = $service->searchBranch('develop', 'mcis', 'mcis');
+        $pullRequests = $service->searchBranch('PROJECT', 'repository', 'branch');
 
         $this->assertCount(2, $pullRequests);
     }
 
-    public function testGetCommitsFromBranch()
+    public function testBranchServiceSearchBranchException()
     {
-        $branchJsonFile = __DIR__ . '/../assets/response/branch.json';
+        $service = new BranchService($this->getClientMockException());
 
-        $branchService = new BranchService(
-            $this
-                ->getClientMock(
-                    $branchJsonFile
-                )
-        );
+        $result = $service->searchBranch('PROJECT', 'repository', 'branch');
 
-        $branches = $branchService->searchBranch('develop', 'sample', 'samplerepo');
+        $this->assertEquals(false, $result);
+    }
 
-        $this->assertEquals('develop', $branches[0]['displayId']);
-        $this->assertCount(2, $branches);
+    public function testBranchServiceSearchBranchNoData()
+    {
+        $service = new BranchService($this->getClientMockNoData());
+
+        $result = $service->searchBranch('PROJECT', 'repository', 'branch');
+
+        $this->assertEquals(false, $result);
     }
 }

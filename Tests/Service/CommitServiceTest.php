@@ -12,9 +12,7 @@ class CommitServiceTest extends TestCase
         $jsonFile = __DIR__ . '/../assets/response/commits.json';
 
         $service = new CommitService(
-            $this->getClientMock(
-                $jsonFile
-            )
+            $this->getClientMock($jsonFile)
         );
 
         $params = array(
@@ -34,7 +32,7 @@ class CommitServiceTest extends TestCase
 
     public function testCommitServiceGetAllException()
     {
-        $service = new CommitService($this->getClientExceptionMock());
+        $service = new CommitService($this->getClientMockException());
 
         $result = $service->getAll('PROJECT', 'repository');
 
@@ -43,7 +41,7 @@ class CommitServiceTest extends TestCase
 
     public function testCommitServiceGetAllNoData()
     {
-        $service = new CommitService($this->getClientNoDataMock());
+        $service = new CommitService($this->getClientMockNoData());
 
         $result = $service->getAll('PROJECT', 'repository');
 
