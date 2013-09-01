@@ -1,0 +1,21 @@
+{
+    "size": 2,
+    "limit": 1000,
+    "isLastPage": true,
+    "values": [
+        {
+            "id": "refs/tags/1.0",
+            "displayId": "2.0",
+            "latestChangeset": "817b52ad44c8036776666a358677b3adcb21de00",
+            "hash": "08ddb13614e61aa8c844a8f82ed2548823552102"
+        },
+        {
+            "id": "refs/tags/2.0",
+            "displayId": "2.0",
+            "latestChangeset": "33fc39d65b99624322a64aac435aca01fb47e406",
+            "hash": "c476612744c54ec98cfe8cf1bcb31605b4cc6d13"
+        }
+    ],
+    "start": 0,
+    "filter": null
+}

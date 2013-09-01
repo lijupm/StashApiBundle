@@ -7,7 +7,7 @@ use StashApiBundle\Service\PullRequestService;
 
 class PullRequestServiceTest extends TestCase
 {
-    public function testGetAll()
+    public function testPullRequestServiceGetAll()
     {
         $jsonFile = __DIR__ . '/../assets/response/pull-requests.json';
 
@@ -17,32 +17,31 @@ class PullRequestServiceTest extends TestCase
             )
         );
 
-        $pullRequests = $service->getAll('mcis', 'mcis');
+        $service->setLimit(1000);
+        $pullRequests = $service->getAll('PROJECT', 'repository');
+
+        $this->assertEquals(0, $service->getStart());
+        $this->assertEquals(17, $service->getSize());
+        $this->assertEquals(true, $service->isLastPage());
 
         $this->assertCount(17, $pullRequests);
     }
 
-    public function testGetAllOptions()
+    public function testPullRequestServiceGetAllException()
     {
-        $jsonFile = __DIR__ . '/../assets/response/pull-requests-with-options.json';
+        $service = new PullRequestService($this->getClientExceptionMock());
 
-        $service = new PullRequestService(
-            $this
-                ->getClientMock(
-                    $jsonFile
-                )
-        );
+        $result = $service->getAll('PROJECT', 'repository');
 
-        $pullRequests = $service->getAll(
-            'mcis',
-            'mcis',
-            array(
-                'direction' => 'incoming',
-                'state' => 'merged',
-                'order' => 'newest'
-            )
-        );
+        $this->assertEquals(false, $result);
+    }
 
-        $this->assertCount(17, $pullRequests);
+    public function testPullRequestServiceGetAllNoData()
+    {
+        $service = new PullRequestService($this->getClientNoDataMock());
+
+        $result = $service->getAll('PROJECT', 'repository');
+
+        $this->assertEquals(false, $result);
     }
 }

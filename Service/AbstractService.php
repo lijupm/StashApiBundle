@@ -3,6 +3,7 @@
 namespace StashApiBundle\Service;
 
 use Guzzle\Http\Client;
+use Guzzle\Http\Exception\BadResponseException;
 
 /**
  * Base class that provides common functionality for all services in the bundle.
@@ -88,13 +89,15 @@ abstract class AbstractService
      */
     protected function getResponseAsArray($url)
     {
-        $request = $this
-            ->client
-            ->get($url);
+        $request = $this->client->get($url);
 
-        $result = $request
-            ->send()
-            ->json();
+        try {
+            $response = $request->send();
+        } catch (BadResponseException $e) {
+            return false;
+        }
+
+        $result = $response->json();
 
         $this->lastPage = $result['isLastPage'];
         $this->size = $result['size'];

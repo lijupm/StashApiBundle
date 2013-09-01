@@ -29,8 +29,7 @@ class FileService extends AbstractService
         );
 
         $data = $this->getResponseAsArray($url);
-
-        if (!$data) {
+        if (false === $data) {
             return false;
         }
 
