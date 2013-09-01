@@ -31,5 +31,9 @@
         <service id="stash_api.tag" class="StashApiBundle\Service\TagService" public="true">
             <argument type="service" id="stash_api.rest_client"></argument>
         </service>
+
+        <service id="stash_api.pullrequest" class="StashApiBundle\Service\PullRequestService" public="true">
+            <argument type="service" id="stash_api.rest_client"></argument>
+        </service>
     </services>
 </container>

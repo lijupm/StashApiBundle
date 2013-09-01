@@ -5,7 +5,7 @@ namespace StashApiBundle\Service;
 use Guzzle\Http\Client;
 
 /**
- * Service class that handles commits in Stash.
+ * Service class that handles commits.
  */
 class CommitService extends AbstractService
 {
@@ -15,12 +15,12 @@ class CommitService extends AbstractService
      * @param \Guzzle\Http\Client $client
      */
     public function __construct(Client $client)
-    {         
+    {
         $this->client = $client;
     }
 
     /**
-     * Retrieve commits from a given branch name, returns false if none found.
+     * Retrieve commits from a specified branch, returns false if none found.
      *
      * @param string $project
      * @param string $repository

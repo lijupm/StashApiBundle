@@ -5,7 +5,7 @@ namespace StashApiBundle\Service;
 use Guzzle\Http\Client;
 
 /**
- * Base class that contain common features that is needed by other classes.
+ * Base class that provides common functionality for all services in the bundle.
  */
 abstract class AbstractService
 {
@@ -38,12 +38,12 @@ abstract class AbstractService
      * Constructor. 
      */
     public function __construct(Client $client)
-    {         
-        $this->client = $client;        
-    } 
+    {
+        $this->client = $client;
+    }
 
     /**
-     * Creates and returns a Stash compatible URL.
+     * Creates and returns a compatible URL.
      *
      * @param string $project
      * @param string $repository
@@ -54,24 +54,26 @@ abstract class AbstractService
      */
     protected function createUrl($project, $repository, $path = '', $params = array())
     {
+        $paramString = http_build_query(
+            array_merge(
+                $params,
+                array(
+                    'limit' => $this->limit,
+                    'start' => $this->start
+                )
+            )
+        );
+
         $url = sprintf(
             'projects/%s/repos/%s/%s?%s',
             $project,
             $repository,
             $path,
-            http_build_query(
-                array_merge(
-                    $params,
-                    array(
-                        'limit' => $this->limit,
-                        'start' => $this->start
-                    )
-                )
-            )
+            $paramString
         );
 
-        $this->start    = 0;
-        $this->size     = 0;
+        $this->start = 0;
+        $this->size = 0;
         $this->lastPage = false;
 
         return $url;
@@ -86,12 +88,17 @@ abstract class AbstractService
      */
     protected function getResponseAsArray($url)
     {
-        $request  = $this->client->get($url);
-        $response = $request->send();
-        $result   = $response->json();
+        $request = $this
+            ->client
+            ->get($url);
+
+        $result = $request
+            ->send()
+            ->json();
 
         $this->lastPage = $result['isLastPage'];
         $this->size = $result['size'];
+
         if (!$this->lastPage) {
             $this->start += $this->limit;
         }
@@ -118,7 +125,7 @@ abstract class AbstractService
     }
 
     /**
-     * Returns the size of the current result set.
+     * Returns the size of the current result page.
      *
      * @return int
      */
@@ -128,7 +135,7 @@ abstract class AbstractService
     }
 
     /**
-     * Indicates whether the current result set is the last.
+     * Indicates whether the current page is the last result page.
      *
      * @return bool
      */
@@ -138,7 +145,7 @@ abstract class AbstractService
     }
 
     /**
-     * Returns the start of the result page.
+     * Returns the start of the current result page.
      *
      * @return int
      */
@@ -148,7 +155,7 @@ abstract class AbstractService
     }
 
     /**
-     * Does result contain data?
+     * Indicates whether the current result page contains data.
      *
      * @param $result
      *

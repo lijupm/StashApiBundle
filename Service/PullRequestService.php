@@ -3,12 +3,12 @@
 namespace StashApiBundle\Service;
 
 /**
- * Service class that handles pull-requests in Stash.
+ * Service class that handles pull requests.
  */
 class PullRequestService extends AbstractService
-{               
+{
     /**
-     * Retrieve all pull-requests in a given project and repository.
+     * Retrieve all pull requests for a specified project and repository.
      *
      * @param string $project
      * @param string $repository

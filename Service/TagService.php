@@ -5,12 +5,12 @@ namespace StashApiBundle\Service;
 use Guzzle\Http\Client;
 
 /**
- * Service class that deals with 'tags' related stash apis.
+ * Service class that handles tags.
  */
 class TagService extends AbstractService
-{    
+{
     /**
-     * Retrieve tags from given repository.
+     * Retrieve tags from specified project and repository.
      *
      * @param string $project
      * @param string $repository
