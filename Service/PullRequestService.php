@@ -26,6 +26,5 @@ class PullRequestService extends AbstractService
         );
 
         return $this->getResponseAsArray($url);
-        $this->assertCount(2, $tags);
     }
 }
