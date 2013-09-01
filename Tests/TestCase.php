@@ -1,4 +1,5 @@
 <?php
+
 namespace StashApiBundle\Tests;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
@@ -13,16 +14,18 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * Get a Guzzle client mock object which also returns the
-     * json file as an array in our services.
+     * JSON file as an array in our services.
      *
      * @param string $jsonFile
      *
      * @return Guzzle\Http\Client
+     *
+     * @throws \RuntimeException
      */
     protected function getClientMock($jsonFile)
     {
         if (false === file_exists($jsonFile)) {
-            throw new \RuntimeException('Json file doesn\'t seem to exist.');
+            throw new \RuntimeException('Unable to find JSON file.');
         }
 
         $request = $this->getMock('Guzzle\Http\Message\RequestInterface');

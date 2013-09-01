@@ -28,6 +28,6 @@ class StashApiExtension extends Extension
 
     public function getAlias()
     {
-       return 'stash_api';
+        return 'stash_api';
     }
 }

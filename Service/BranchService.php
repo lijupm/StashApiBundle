@@ -3,12 +3,12 @@
 namespace StashApiBundle\Service;
 
 /**
- * Service class that handles branches in Stash.
+ * Service class that handles branches.
  */
 class BranchService extends AbstractService
 {
     /**
-     * Retrieve branches for a specified project, repository and branch.
+     * Search for a specific branch in a specified project and repository.
      *
      * @param string $repository
      * @param string $project
@@ -16,7 +16,7 @@ class BranchService extends AbstractService
      *
      * @return false|array
      */
-    public function getAll($repository, $project, $branch)
+    public function searchBranch($repository, $project, $branch)
     {
         $url = $this->createUrl(
             $project,

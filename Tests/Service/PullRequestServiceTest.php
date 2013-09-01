@@ -4,7 +4,6 @@ namespace StashApiBundle\Tests\Service;
 
 use StashApiBundle\Tests\TestCase;
 use StashApiBundle\Service\PullRequestService;
-use StashApiBundle\Tests\JsonResponseMock;
 
 class PullRequestServiceTest extends TestCase
 {
@@ -12,7 +11,12 @@ class PullRequestServiceTest extends TestCase
     {
         $jsonFile = __DIR__ . '/../assets/response/pull-requests.json';
 
-        $service = new PullRequestService($this->getClientMock($jsonFile));
+        $service = new PullRequestService(
+            $this->getClientMock(
+                $jsonFile
+            )
+        );
+
         $pullRequests = $service->getAll('mcis', 'mcis');
 
         $this->assertCount(17, $pullRequests);
@@ -22,7 +26,13 @@ class PullRequestServiceTest extends TestCase
     {
         $jsonFile = __DIR__ . '/../assets/response/pull-requests-with-options.json';
 
-        $service = new PullRequestService($this->getClientMock($jsonFile));
+        $service = new PullRequestService(
+            $this
+                ->getClientMock(
+                    $jsonFile
+                )
+        );
+
         $pullRequests = $service->getAll(
             'mcis',
             'mcis',
