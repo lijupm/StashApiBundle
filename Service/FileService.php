@@ -28,19 +28,6 @@ class FileService extends AbstractService
             )
         );
 
-        $data = $this->getResponseAsArray($url);
-
-        if (false === $data) {
-            return false;
-        }
-
-        $result = array();
-        foreach ($data as $row) {
-            if (substr($row, 0, 1) != '.') {
-                $result[] = $row;
-            }
-        }
-
-        return $result;
+        return $this->performQuery($url);
     }
 }

@@ -15,28 +15,39 @@ class TagServiceTest extends TestCase
             $this->getClientMock($jsonFile)
         );
 
-        $service->setLimit(1000);
+        $service->setStart(0);
+        $service->setLimit(10000);
+
         $tags = $service->getAll('PROJECT', 'repository');
 
         $this->assertEquals(0, $service->getStart());
-        $this->assertEquals(2, $service->getSize());
-        $this->assertEquals(true, $service->isLastPage());
+        $this->assertEquals(10000, $service->getLimit());
 
-        $this->assertCount(2, $tags);
+        $this->assertCount(2, $tags['values']);
     }
 
+    /**
+     * @expectedException \Guzzle\Http\Exception\BadResponseException
+     */
     public function testTagServiceGetAllException()
     {
         $service = new TagService($this->getClientMockException());
 
-        $result = $service->getAll('PROJECT', 'repository');
-
-        $this->assertEquals(false, $result);
+        $service->getAll('PROJECT', 'repository');
     }
 
     public function testTagServiceGetAllNoData()
     {
         $service = new TagService($this->getClientMockNoData());
+
+        $result = $service->getAll('PROJECT', 'repository');
+
+        $this->assertEquals(array(), $result['values']);
+    }
+
+    public function testTagServiceGetAllErrors()
+    {
+        $service = new TagService($this->getClientMockErrors());
 
         $result = $service->getAll('PROJECT', 'repository');
 

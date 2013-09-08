@@ -25,6 +25,6 @@ class PullRequestService extends AbstractService
             $params
         );
 
-        return $this->getResponseAsArray($url);
+        return $this->performQuery($url);
     }
 }

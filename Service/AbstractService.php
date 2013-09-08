@@ -11,29 +11,29 @@ use Guzzle\Http\Exception\BadResponseException;
 abstract class AbstractService
 {
     /**
-     * @var bool
+     * @var int
      */
-    private $lastPage = false;
+    protected $limit = 10000;
 
     /**
      * @var int
      */
-    private $size = 0;
-
-    /**
-     * @var int
-     */
-    private $limit = 10000;
-
-    /**
-     * @var int
-     */
-    private $start = 0;
+    protected $start = 0;
 
     /**
      * @var \Guzzle\Http\Client
      */
     protected $client;
+
+    /**
+     * @var \Guzzle\Http\Message\Response
+     */
+    protected $response;
+
+    /**
+     * @var array
+     */
+    protected $result;
 
     /**
      * Constructor. 
@@ -73,52 +73,31 @@ abstract class AbstractService
             $paramString
         );
 
-        $this->start = 0;
-        $this->size = 0;
-        $this->lastPage = false;
-
         return $url;
     }
 
     /**
-     * Get response as an array, returns false if no result.
+     * Performs the specified query and stores the result.
      *
      * @param string $url
      *
      * @return bool|array
      */
-    protected function getResponseAsArray($url)
+    protected function performQuery($url)
     {
         $request = $this->client->get($url);
 
-        try {
-            $response = $request->send();
-        } catch (BadResponseException $e) {
-            return false;
-        }
+        $this->response = $request->send();
 
-        $result = $response->json();
-
-        $this->lastPage = $result['isLastPage'];
-        $this->size = $result['size'];
-
-        if (!$this->lastPage) {
-            $this->start += $this->limit;
-        }
-
-        if ($this->resultHasData($result)) {
-            return $result['values'];
-        }
-
-        return false;
+        return $this->getResponseAsArray();
     }
 
     /**
      * Set the result limit.
      *
-     * @param integer $limit
+     * @param int $limit
      *
-     * @return self
+     * @return \StashApiBundle\Service\AbstractService
      */
     public function setLimit($limit)
     {
@@ -128,23 +107,27 @@ abstract class AbstractService
     }
 
     /**
-     * Returns the size of the current result page.
+     * Retrieve the result limit.
      *
      * @return int
      */
-    public function getSize()
+    public function getLimit()
     {
-        return $this->size;
+        return $this->limit;
     }
 
     /**
-     * Indicates whether the current page is the last result page.
+     * Returns the start of the current result page.
      *
-     * @return bool
+     * @param int $start
+     *
+     * @return \StashApiBundle\Service\AbstractService
      */
-    public function isLastPage()
+    public function setStart($start)
     {
-        return $this->lastPage;
+        $this->start = $start;
+
+        return $this;
     }
 
     /**
@@ -158,14 +141,28 @@ abstract class AbstractService
     }
 
     /**
-     * Indicates whether the current result page contains data.
+     * Get response as an array, returns false if no result.
      *
-     * @param $result
-     *
+     * @param bool|array
+     */
+    private function getResponseAsArray()
+    {
+        $this->result = $this->response->json();
+
+        if ($this->responseHasErrors()) {
+            return false;
+        }
+
+        return $this->result;
+    }
+
+    /**
+     * Indicates whether the current result page contains errors.
+     * 
      * @return bool
      */
-    private function resultHasData($result)
+    private function responseHasErrors()
     {
-        return (array_key_exists('values', $result) && count($result['values']) > 0);
+        return array_key_exists('errors', $this->result);
     }
 }

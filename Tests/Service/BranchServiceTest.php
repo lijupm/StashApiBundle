@@ -7,33 +7,41 @@ use StashApiBundle\Service\BranchService;
 
 class BranchServiceTest extends TestCase
 {
-    public function testBranchServiceSearchBranch()
+    public function testBranchServiceSearch()
     {
         $jsonFile = __DIR__ . '/../assets/response/branch.json';
 
-        $service = new BranchService(
-            $this->getClientMock($jsonFile)
-        );
+        $service = new BranchService($this->getClientMock($jsonFile));
 
-        $pullRequests = $service->searchBranch('PROJECT', 'repository', 'branch');
+        $result = $service->search('PROJECT', 'repository', 'branch');
 
-        $this->assertCount(2, $pullRequests);
+        $this->assertCount(2, $result['values']);
     }
 
-    public function testBranchServiceSearchBranchException()
+    /**
+     * @expectedException \Guzzle\Http\Exception\BadResponseException
+     */
+    public function testBranchServiceSearchException()
     {
         $service = new BranchService($this->getClientMockException());
 
-        $result = $service->searchBranch('PROJECT', 'repository', 'branch');
-
-        $this->assertEquals(false, $result);
+        $service->search('PROJECT', 'repository', 'branch');
     }
 
-    public function testBranchServiceSearchBranchNoData()
+    public function testBranchServiceSearchNoData()
     {
         $service = new BranchService($this->getClientMockNoData());
 
-        $result = $service->searchBranch('PROJECT', 'repository', 'branch');
+        $result = $service->search('PROJECT', 'repository', 'branch');
+
+        $this->assertEquals(array(), $result['values']);
+    }
+
+    public function testBranchServiceSearchErrors()
+    {
+        $service = new BranchService($this->getClientMockErrors());
+
+        $result = $service->search('PROJECT', 'repository', 'branch');
 
         $this->assertEquals(false, $result);
     }
