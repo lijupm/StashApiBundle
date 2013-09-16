@@ -11,32 +11,41 @@ class FileServiceTest extends TestCase
     {
         $jsonFile = __DIR__ . '/../assets/response/files.json';
 
-        $service = new FileService(
-            $this->getClientMock($jsonFile)
-        );
+        $service = new FileService($this->getClientMock($jsonFile));
 
-        $service->setLimit(1000);
+        $service->setStart(0);
+        $service->setLimit(10000);
+
         $files = $service->getAll('PROJECT', 'repository', 'path');
 
-        $this->assertEquals(1000, $service->getStart());
-        $this->assertEquals(25, $service->getSize());
-        $this->assertEquals(false, $service->isLastPage());
+        $this->assertEquals(0, $service->getStart());
+        $this->assertEquals(10000, $service->getLimit());
 
-        $this->assertCount(22, $files);
+        $this->assertCount(22, $files['values']);
     }
 
+    /**
+     * @expectedException \Guzzle\Http\Exception\BadResponseException
+     */
     public function testFileServiceGetAllException()
     {
         $service = new FileService($this->getClientMockException());
 
-        $result = $service->getAll('PROJECT', 'repository', 'path');
-
-        $this->assertEquals(false, $result);
+        $service->getAll('PROJECT', 'repository', 'path');
     }
 
     public function testFileServiceGetAllNoData()
     {
         $service = new FileService($this->getClientMockNoData());
+
+        $result = $service->getAll('PROJECT', 'repository', 'path');
+
+        $this->assertEquals(array(), $result['values']);
+    }
+
+    public function testFileServiceGetAllErrors()
+    {
+        $service = new FileService($this->getClientMockErrors());
 
         $result = $service->getAll('PROJECT', 'repository', 'path');
 
