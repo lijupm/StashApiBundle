@@ -25,7 +25,6 @@
 
         <service id="stash_api.commit" class="StashApiBundle\Service\CommitService" public="true">
             <argument type="service" id="stash_api.rest_client"></argument>
-            <argument type="service" id="stash_api.branch"></argument>
         </service>
 
         <service id="stash_api.tag" class="StashApiBundle\Service\TagService" public="true">
