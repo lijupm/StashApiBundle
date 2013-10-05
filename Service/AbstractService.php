@@ -36,6 +36,11 @@ abstract class AbstractService
     protected $result;
 
     /**
+     * @var boolean
+     */
+    protected $lastPage = false;
+
+    /**
      * Constructor. 
      */
     public function __construct(Client $client)
@@ -149,6 +154,8 @@ abstract class AbstractService
     {
         $this->result = $this->response->json();
 
+        $this->lastPage = $this->result['isLastPage'];
+
         if ($this->responseHasErrors()) {
             return false;
         }
@@ -164,5 +171,15 @@ abstract class AbstractService
     private function responseHasErrors()
     {
         return array_key_exists('errors', $this->result);
+    }
+
+    /**
+     * Is last results set.
+     *
+     * @return bool
+     */
+    public function isLastPage()
+    {
+        return $this->lastPage;
     }
 }
