@@ -153,8 +153,10 @@ abstract class AbstractService
     private function getResponseAsArray()
     {
         $this->result = $this->response->json();
-
-        $this->lastPage = $this->result['isLastPage'];
+        
+        if (isset($this->result['isLastPage'])) {        
+            $this->lastPage = $this->result['isLastPage'];
+        }       
 
         if ($this->responseHasErrors()) {
             return false;
